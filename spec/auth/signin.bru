@@ -1,0 +1,22 @@
+meta {
+  name: signin
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/auth/magiclink/signin
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "token": "_Mv8oCufcXrXcriI-nLyOyUWVsw3v5GUELX8_jIYX7j-",
+    "org_id": "organization-test-6d401a0f-b034-44a0-b176-1c5b01bba0c9"
+  }
+}
+
+body:form-urlencoded {
+  email: asasasas
+}

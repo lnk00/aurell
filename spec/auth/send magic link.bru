@@ -1,0 +1,21 @@
+meta {
+  name: send magic link
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/auth/magiclink/send
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "damien.dumontet@protonmail.com"
+  }
+}
+
+body:form-urlencoded {
+  email: asasasas
+}

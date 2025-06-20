@@ -1,0 +1,21 @@
+meta {
+  name: verify magic link
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/auth/magiclink/verify
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "token": "OKVkm74-A1SoVmAeANt4dBk9v61OBrgoCQ8diYPilWtm"
+  }
+}
+
+body:form-urlencoded {
+  email: asasasas
+}
