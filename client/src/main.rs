@@ -1,4 +1,3 @@
-use daisy_rsx::{Button, ButtonSize};
 use dioxus::prelude::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -31,10 +30,33 @@ fn Home() -> Element {
     rsx! {
         div {
             class: "h-screen w-screen flex items-center justify-center",
+            div {
+                class: "card w-96",
+                div {
+                    class: "card-body",
+                    div {
+                        class: "card-title text-5xl font-bold mb-6",
+                        "Login"
+                    }
+                    input {
+                        class: "input input-bordered w-full",
+                        placeholder: "Enter your email",
+                        type: "email",
+                    }
+                    p {
+                        class: "label opacity-50",
+                        "exemple: john.doe@example.com"
+                    }
+                    div {
+                        class: "card-actions mt-4",
 
-            Button {
-                button_size: ButtonSize::Large,
-                "Click me!"
+                        button {
+                            class: "btn btn-block",
+                            type: "submit",
+                            "Continue withe email"
+                        }
+                    }
+                }
             }
         }
     }

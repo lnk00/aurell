@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Gloock&family=Lexend:wght@100..900&display=swap");
+
 @import "tailwindcss";
 @plugin "daisyui";
 @source "./src/**/*.{rs,html,css}";
@@ -35,4 +37,20 @@
   --border: 1px;
   --depth: 1;
   --noise: 0;
+}
+
+@theme {
+	--font-display: "Gloock";
+}
+
+body {
+	@apply m-0;
+	font-family: "Lexend";
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
 }
