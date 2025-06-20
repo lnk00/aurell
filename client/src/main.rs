@@ -1,4 +1,4 @@
-use dioxus::prelude::*;
+use dioxus::{logger::tracing::info, prelude::*};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -27,6 +27,8 @@ fn App() -> Element {
 
 #[component]
 fn Home() -> Element {
+    let mut email = use_signal(|| "".to_string());
+
     rsx! {
         div {
             class: "h-screen w-screen flex items-center justify-center",
@@ -42,6 +44,8 @@ fn Home() -> Element {
                         class: "input input-bordered w-full",
                         placeholder: "Enter your email",
                         type: "email",
+                        value: email,
+                        oninput: move |event| email.set(event.value())
                     }
                     p {
                         class: "label opacity-50",
@@ -53,6 +57,9 @@ fn Home() -> Element {
                         button {
                             class: "btn btn-block",
                             type: "submit",
+                            onclick: move |_| {
+                                info!("Button clicked with email: {}", email)
+                            },
                             "Continue withe email"
                         }
                     }
