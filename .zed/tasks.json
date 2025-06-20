@@ -1,0 +1,12 @@
+[
+  {
+    "label": "client:serve",
+    "command": "dx serve",
+    "cwd": "/Users/damiendumontet/Documents/aurell/client"
+  },
+  {
+    "label": "tailwind:watch",
+    "command": "npx @tailwindcss/cli -i ./input.css -o ./assets/tailwind.css --watch",
+    "cwd": "/Users/damiendumontet/Documents/aurell/client"
+  }
+]
