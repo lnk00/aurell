@@ -1,4 +1,4 @@
-use aurell_shared::ApiResponse;
+use aurell_types::ApiResponse;
 use axum::{Json, http::StatusCode, response::IntoResponse};
 use serde::Serialize;
 

@@ -2,7 +2,7 @@ use crate::{
     features::auth::services::ServiceContainer,
     shared::types::responses_type::{error_response, success_response},
 };
-use aurell_shared::auth::{SendMagicLinkRequest, SendMagicLinkResponse};
+use aurell_types::auth::{SendMagicLinkRequest, SendMagicLinkResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},

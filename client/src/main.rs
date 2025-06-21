@@ -1,4 +1,4 @@
-use aurell_shared::{ApiResponse, SendMagicLinkRequest, SendMagicLinkResponse};
+use aurell_types::{ApiResponse, SendMagicLinkRequest, SendMagicLinkResponse};
 use dioxus::{logger::tracing::info, prelude::*};
 
 #[derive(Debug, Clone, Routable, PartialEq)]

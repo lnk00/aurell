@@ -2,7 +2,7 @@ use crate::{
     features::auth::services::ServiceContainer,
     shared::types::responses_type::{error_response, success_response},
 };
-use aurell_shared::auth::{RevokeSessionRequest, RevokeSessionResponse};
+use aurell_types::auth::{RevokeSessionRequest, RevokeSessionResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},

@@ -1,5 +1,5 @@
 [package]
-name = "aurell-shared"
+name = "aurell-types"
 version = "0.1.0"
 edition = "2021"
 
