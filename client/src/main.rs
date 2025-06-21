@@ -1,6 +1,5 @@
-use aurell_shared::{SendMagicLinkRequest, SendMagicLinkResponse};
+use aurell_shared::{ApiResponse, SendMagicLinkRequest, SendMagicLinkResponse};
 use dioxus::{logger::tracing::info, prelude::*};
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -25,16 +24,6 @@ fn App() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         Router::<Route> {}
     }
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct ApiResponse<T>
-where
-    T: Serialize,
-{
-    pub success: bool,
-    pub data: Option<T>,
-    pub error: Option<String>,
 }
 
 #[component]
