@@ -1,4 +1,4 @@
-use aurell_shared::SendMagicLinkResponse;
+use aurell_shared::{SendMagicLinkRequest, SendMagicLinkResponse};
 use dioxus::{logger::tracing::info, prelude::*};
 use serde::{Deserialize, Serialize};
 
@@ -43,13 +43,11 @@ fn Home() -> Element {
 
     let fetch_new = move |_: ()| async move {
         let client = reqwest::Client::new();
-        let request_body = serde_json::json!({
-            "email": email.read().as_str()
-        });
-
         let response = client
             .post("http://localhost:3000/api/auth/magiclink/send")
-            .json(&request_body)
+            .json(&SendMagicLinkRequest {
+                email: email.read().as_str().to_string(),
+            })
             .send()
             .await
             .unwrap()
