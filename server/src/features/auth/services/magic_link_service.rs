@@ -6,7 +6,7 @@ use stytch::b2b::magic_links_email_discovery::SendRequest;
 
 use crate::config::Config;
 use crate::shared::errors::magic_link_service_errors::MagicLinkServiceError;
-use crate::shared::types::org_type::Org;
+use aurell_shared::auth::Org;
 
 pub struct VerifyResult {
     pub token: String,

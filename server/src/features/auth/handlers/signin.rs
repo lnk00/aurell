@@ -2,28 +2,13 @@ use crate::{
     features::auth::services::ServiceContainer,
     shared::types::responses_type::{error_response, success_response},
 };
+use aurell_shared::auth::{SigninRequest, SigninResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},
     http::StatusCode,
     response::{IntoResponse, Response},
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, Serialize)]
-pub struct SigninRequest {
-    pub token: String,
-    #[serde(rename = "orgId")]
-    pub org_id: String,
-}
-
-#[derive(Deserialize, Serialize)]
-pub struct SigninResponse {
-    #[serde(rename = "sessionToken")]
-    pub session_token: String,
-    #[serde(rename = "sessionJwt")]
-    pub session_jwt: String,
-}
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,

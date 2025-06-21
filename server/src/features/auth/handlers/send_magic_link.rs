@@ -2,21 +2,13 @@ use crate::{
     features::auth::services::ServiceContainer,
     shared::types::responses_type::{error_response, success_response},
 };
+use aurell_shared::auth::{SendMagicLinkRequest, SendMagicLinkResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},
     http::StatusCode,
     response::{IntoResponse, Response},
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, Serialize)]
-pub struct SendMagicLinkRequest {
-    pub email: String,
-}
-
-#[derive(Deserialize, Serialize)]
-pub struct SendMagicLinkResponse {}
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,

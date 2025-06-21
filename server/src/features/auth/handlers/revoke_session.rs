@@ -2,21 +2,13 @@ use crate::{
     features::auth::services::ServiceContainer,
     shared::types::responses_type::{error_response, success_response},
 };
+use aurell_shared::auth::{RevokeSessionRequest, RevokeSessionResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},
     http::StatusCode,
     response::{IntoResponse, Response},
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, Serialize)]
-pub struct RevokeSessionRequest {
-    pub session_token: String,
-}
-
-#[derive(Deserialize, Serialize)]
-pub struct RevokeSessionResponse {}
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,

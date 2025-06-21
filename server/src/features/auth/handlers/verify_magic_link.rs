@@ -1,28 +1,14 @@
 use crate::{
     features::auth::services::ServiceContainer,
-    shared::types::{
-        org_type::Org,
-        responses_type::{error_response, success_response},
-    },
+    shared::types::responses_type::{error_response, success_response},
 };
+use aurell_shared::auth::{VerifyMagicLinkRequest, VerifyMagicLinkResponse};
 use axum::{
     Json,
     extract::{State, rejection::JsonRejection},
     http::StatusCode,
     response::{IntoResponse, Response},
 };
-use serde::{Deserialize, Serialize};
-
-#[derive(Deserialize, Serialize)]
-pub struct VerifyMagicLinkRequest {
-    pub token: String,
-}
-
-#[derive(Deserialize, Serialize)]
-pub struct VerifyMagicLinkResponse {
-    pub token: String,
-    pub orgs: Vec<Org>,
-}
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,

@@ -1,3 +1,4 @@
+use aurell_shared::SendMagicLinkResponse;
 use dioxus::{logger::tracing::info, prelude::*};
 use serde::{Deserialize, Serialize};
 
@@ -52,7 +53,7 @@ fn Home() -> Element {
             .send()
             .await
             .unwrap()
-            .json::<ApiResponse<serde_json::Value>>()
+            .json::<ApiResponse<SendMagicLinkResponse>>()
             .await
             .unwrap();
 

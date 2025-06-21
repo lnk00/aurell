@@ -195,6 +195,7 @@ checksum = "1505bd5d3d116872e7271a6d4e16d81d0c8570876c8de68093a09ac269d8aac0"
 name = "aurell-server"
 version = "0.1.0"
 dependencies = [
+ "aurell-shared",
  "axum",
  "dotenv",
  "futures",
@@ -205,6 +206,13 @@ dependencies = [
  "tower-http",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "aurell-shared"
+version = "0.1.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]
@@ -475,6 +483,7 @@ dependencies = [
 name = "client"
 version = "0.1.0"
 dependencies = [
+ "aurell-shared",
  "dioxus",
  "reqwest",
  "serde",
