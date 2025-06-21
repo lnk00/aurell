@@ -1,6 +1,9 @@
 use crate::{
     features::auth::services::ServiceContainer,
-    shared::types::responses_type::{error_response, success_response},
+    shared::utils::{
+        request_validator_util::validate_request,
+        responses_util::{error_response, success_response},
+    },
 };
 use aurell_types::auth::{VerifyMagicLinkRequest, VerifyMagicLinkResponse};
 use axum::{
@@ -27,21 +30,4 @@ pub async fn handle(
         })
         .into_response(),
     }
-}
-
-fn validate_request(
-    payload: Result<Json<VerifyMagicLinkRequest>, JsonRejection>,
-) -> Result<VerifyMagicLinkRequest, Response> {
-    let request = match payload {
-        Ok(Json(req)) => req,
-        Err(rejection) => {
-            return Err(error_response(
-                format!("Invalid JSON payload: {}", rejection),
-                StatusCode::BAD_REQUEST,
-            )
-            .into_response());
-        }
-    };
-
-    Ok(request)
 }
