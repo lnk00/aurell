@@ -1,6 +1,9 @@
 use crate::{
     features::auth::services::ServiceContainer,
-    shared::types::responses_type::{error_response, success_response},
+    shared::types::{
+        org_type::Org,
+        responses_type::{error_response, success_response},
+    },
 };
 use axum::{
     Json,
@@ -9,11 +12,16 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Deserialize, Serialize)]
 pub struct VerifyMagicLinkRequest {
     pub token: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct VerifyMagicLinkResponse {
+    pub token: String,
+    pub orgs: Vec<Org>,
 }
 
 pub async fn handle(
@@ -27,9 +35,11 @@ pub async fn handle(
 
     match sc.magic_link_service.verify(request.token).await {
         Err(e) => error_response(e.to_string(), StatusCode::BAD_REQUEST).into_response(),
-        Ok(res) => {
-            success_response(json!({ "token": res.token, "orgs": res.orgs })).into_response()
-        }
+        Ok(res) => success_response(VerifyMagicLinkResponse {
+            token: res.token,
+            orgs: res.orgs,
+        })
+        .into_response(),
     }
 }
 

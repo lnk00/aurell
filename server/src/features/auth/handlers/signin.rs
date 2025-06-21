@@ -9,12 +9,20 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Deserialize, Serialize)]
 pub struct SigninRequest {
     pub token: String,
+    #[serde(rename = "orgId")]
     pub org_id: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct SigninResponse {
+    #[serde(rename = "sessionToken")]
+    pub session_token: String,
+    #[serde(rename = "sessionJwt")]
+    pub session_jwt: String,
 }
 
 pub async fn handle(
@@ -32,9 +40,10 @@ pub async fn handle(
         .await
     {
         Err(e) => error_response(e.to_string(), StatusCode::BAD_REQUEST).into_response(),
-        Ok(res) => success_response(
-            json!({ "sessionToken": res.session_token, "sessionJwt": res.session_jwt }),
-        )
+        Ok(res) => success_response(SigninResponse {
+            session_token: res.session_token,
+            session_jwt: res.session_jwt,
+        })
         .into_response(),
     }
 }

@@ -9,12 +9,14 @@ use axum::{
     response::{IntoResponse, Response},
 };
 use serde::{Deserialize, Serialize};
-use serde_json::json;
 
 #[derive(Deserialize, Serialize)]
 pub struct RevokeSessionRequest {
     pub session_token: String,
 }
+
+#[derive(Deserialize, Serialize)]
+pub struct RevokeSessionResponse {}
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,
@@ -27,7 +29,7 @@ pub async fn handle(
 
     match sc.session_service.revoke(request.session_token).await {
         Err(e) => error_response(e.to_string(), StatusCode::BAD_REQUEST).into_response(),
-        Ok(_) => success_response(json!({})).into_response(),
+        Ok(_) => success_response(RevokeSessionResponse {}).into_response(),
     }
 }
 
