@@ -1,4 +1,5 @@
 use dioxus::{logger::tracing::info, prelude::*};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -25,9 +26,38 @@ fn App() -> Element {
     }
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ApiResponse<T>
+where
+    T: Serialize,
+{
+    pub success: bool,
+    pub data: Option<T>,
+    pub error: Option<String>,
+}
+
 #[component]
 fn Home() -> Element {
     let mut email = use_signal(|| "".to_string());
+
+    let fetch_new = move |_: ()| async move {
+        let client = reqwest::Client::new();
+        let request_body = serde_json::json!({
+            "email": email.read().as_str()
+        });
+
+        let response = client
+            .post("http://localhost:3000/api/auth/magiclink/send")
+            .json(&request_body)
+            .send()
+            .await
+            .unwrap()
+            .json::<ApiResponse<serde_json::Value>>()
+            .await
+            .unwrap();
+
+        info!("Response: {:?}", response);
+    };
 
     rsx! {
         div {
@@ -58,7 +88,7 @@ fn Home() -> Element {
                             class: "btn btn-block",
                             type: "submit",
                             onclick: move |_| {
-                                info!("Button clicked with email: {}", email)
+                                spawn(fetch_new(()));
                             },
                             "Continue withe email"
                         }
