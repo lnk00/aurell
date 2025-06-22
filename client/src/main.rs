@@ -1,7 +1,10 @@
-use aurell_types::{SendMagicLinkRequest, SendMagicLinkResponse};
+use aurell_types::SendMagicLinkRequest;
 use dioxus::{logger::tracing::info, prelude::*};
+use dioxus_query::{mutation::Mutation, prelude::use_mutation};
+use query::SendMagicLinkMutation;
 
 mod http_client;
+mod query;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -31,20 +34,9 @@ fn App() -> Element {
 #[component]
 fn Home() -> Element {
     let mut email = use_signal(|| "".to_string());
+    let send_magic_link = use_mutation(Mutation::new(SendMagicLinkMutation));
 
-    let fetch_new = move |_: ()| async move {
-        let request_body = SendMagicLinkRequest {
-            email: email.read().as_str().to_string(),
-        };
-
-        let response = http_client::post::<SendMagicLinkRequest, SendMagicLinkResponse>(
-            "/auth/magiclink/send",
-            &request_body,
-        )
-        .await;
-
-        info!("Response: {:?}", response);
-    };
+    info!("{:?}", send_magic_link.read().state());
 
     rsx! {
         div {
@@ -76,9 +68,16 @@ fn Home() -> Element {
                             class: "btn btn-block",
                             type: "submit",
                             onclick: move |_| {
-                                spawn(fetch_new(()));
+                                send_magic_link.mutate(SendMagicLinkRequest {
+                                    email: email.read().clone(),
+                                })
                             },
                             "Continue withe email"
+                            if send_magic_link.read().state().is_loading() {
+                                span {
+                                    class:"loading loading-spinner"
+                                }
+                            }
                         }
                     }
                 }

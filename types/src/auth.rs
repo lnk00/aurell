@@ -25,7 +25,7 @@ pub struct SigninResponse {
 }
 
 // Magic link types
-#[derive(Deserialize, Serialize, Clone, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug, PartialEq, Hash, Eq)]
 pub struct SendMagicLinkRequest {
     pub email: String,
 }
