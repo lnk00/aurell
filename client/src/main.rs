@@ -1,5 +1,7 @@
-use aurell_types::{ApiResponse, SendMagicLinkRequest, SendMagicLinkResponse};
+use aurell_types::{SendMagicLinkRequest, SendMagicLinkResponse};
 use dioxus::{logger::tracing::info, prelude::*};
+
+mod http_client;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
@@ -31,18 +33,15 @@ fn Home() -> Element {
     let mut email = use_signal(|| "".to_string());
 
     let fetch_new = move |_: ()| async move {
-        let client = reqwest::Client::new();
-        let response = client
-            .post("http://localhost:3000/api/auth/magiclink/send")
-            .json(&SendMagicLinkRequest {
-                email: email.read().as_str().to_string(),
-            })
-            .send()
-            .await
-            .unwrap()
-            .json::<ApiResponse<SendMagicLinkResponse>>()
-            .await
-            .unwrap();
+        let request_body = SendMagicLinkRequest {
+            email: email.read().as_str().to_string(),
+        };
+
+        let response = http_client::post::<SendMagicLinkRequest, SendMagicLinkResponse>(
+            "/auth/magiclink/send",
+            &request_body,
+        )
+        .await;
 
         info!("Response: {:?}", response);
     };
@@ -62,6 +61,7 @@ fn Home() -> Element {
                         class: "input input-bordered w-full",
                         placeholder: "Enter your email",
                         type: "email",
+                        autocomplete: "email",
                         value: email,
                         oninput: move |event| email.set(event.value())
                     }

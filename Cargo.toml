@@ -2,8 +2,6 @@
 resolver = "3"
 members = ["server", "client", "types"]
 
-[profile]
-
 [profile.wasm-dev]
 inherits = "dev"
 opt-level = 1

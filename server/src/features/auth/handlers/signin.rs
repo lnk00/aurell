@@ -1,25 +1,19 @@
 use crate::{
     features::auth::services::ServiceContainer,
-    shared::utils::request_validator_util::validate_request,
+    shared::extractors::validated_json::ValidatedJson,
     shared::utils::responses_util::{error_response, success_response},
 };
 use aurell_types::auth::{SigninRequest, SigninResponse};
 use axum::{
-    Json,
-    extract::{State, rejection::JsonRejection},
+    extract::State,
     http::StatusCode,
     response::{IntoResponse, Response},
 };
 
 pub async fn handle(
     State(sc): State<ServiceContainer>,
-    payload: Result<Json<SigninRequest>, JsonRejection>,
+    ValidatedJson(request): ValidatedJson<SigninRequest>,
 ) -> Response {
-    let request = match validate_request(payload) {
-        Ok(req) => req,
-        Err(response) => return response,
-    };
-
     match sc
         .session_service
         .signin(request.org_id, request.token)
