@@ -2,12 +2,12 @@ use aurell_types::SendMagicLinkRequest;
 use dioxus::prelude::*;
 use dioxus_query::{mutation::Mutation, prelude::use_mutation};
 
-use crate::query::SendMagicLinkMutation;
+use crate::api;
 
 #[component]
 pub fn Home() -> Element {
     let mut email = use_signal(|| "".to_string());
-    let send_magic_link = use_mutation(Mutation::new(SendMagicLinkMutation));
+    let send_magic_link = use_mutation(Mutation::new(api::auth::SendMagicLinkMutation));
 
     rsx! {
         div {
@@ -46,7 +46,7 @@ pub fn Home() -> Element {
                             "Continue withe email"
                             if send_magic_link.read().state().is_loading() {
                                 span {
-                                    class:"loading loading-spinner"
+                                    class:"loading loading-spinner loading-xs"
                                 }
                             }
                         }

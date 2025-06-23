@@ -1,9 +1,9 @@
 use dioxus::prelude::*;
 use router::ClientRouter;
 
+mod api;
 mod http_client;
 mod pages;
-mod query;
 mod router;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");

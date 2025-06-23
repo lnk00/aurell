@@ -20,19 +20,26 @@ pub trait MagicLinkService {
 
 pub struct StytchMagicLinkService {
     client: Client,
+    config: Config,
 }
 
 impl StytchMagicLinkService {
     pub fn new(config: Config) -> Self {
         let client = Client::new(&config.stytch_project_id, &config.stytch_secret).unwrap();
-        StytchMagicLinkService { client }
+        StytchMagicLinkService { client, config }
     }
 }
 
 impl MagicLinkService for StytchMagicLinkService {
     fn send(&self, email: String) -> BoxFuture<Result<(), MagicLinkServiceError>> {
+        let redirect_url = format!(
+            "{}{}",
+            self.config.client_url, self.config.magic_link_redirect_url
+        );
+
         let res = self.client.magic_links.email.discovery.send(SendRequest {
             email_address: email,
+            discovery_redirect_url: Some(redirect_url),
             ..Default::default()
         });
 

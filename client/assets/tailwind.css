@@ -550,6 +550,9 @@
   .btn-block {
     width: 100%;
   }
+  .loading-xs {
+    width: calc(var(--size-selector, 0.25rem) * 4);
+  }
   .w-96 {
     width: calc(var(--spacing) * 96);
   }
@@ -578,6 +581,9 @@
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
+  }
+  .opacity-0 {
+    opacity: 0%;
   }
   .opacity-50 {
     opacity: 50%;

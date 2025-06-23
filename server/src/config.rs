@@ -8,6 +8,8 @@ pub struct Config {
     pub stytch_secret: String,
     pub server_port: u16,
     pub server_host: String,
+    pub client_url: String,
+    pub magic_link_redirect_url: String,
 }
 
 impl Config {
@@ -29,11 +31,19 @@ impl Config {
 
         let server_host = env::var("SERVER_HOST").unwrap_or_else(|_| "0.0.0.0".to_string());
 
+        let client_url =
+            env::var("CLIENT_URL").map_err(|_| ConfigError::Missing("CLIENT_URL".to_string()))?;
+
+        let magic_link_redirect_url = env::var("MAGIC_LINK_REDIRECT_URL")
+            .map_err(|_| ConfigError::Missing("MAGIC_LINK_REDIRECT_URL".to_string()))?;
+
         let config = Config {
             stytch_project_id,
             stytch_secret,
             server_port,
             server_host,
+            client_url,
+            magic_link_redirect_url,
         };
         info!("Server starting with config: {:?}", config);
 
