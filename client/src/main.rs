@@ -1,5 +1,5 @@
 use aurell_types::SendMagicLinkRequest;
-use dioxus::{logger::tracing::info, prelude::*};
+use dioxus::prelude::*;
 use dioxus_query::{mutation::Mutation, prelude::use_mutation};
 use query::SendMagicLinkMutation;
 
@@ -35,8 +35,6 @@ fn App() -> Element {
 fn Home() -> Element {
     let mut email = use_signal(|| "".to_string());
     let send_magic_link = use_mutation(Mutation::new(SendMagicLinkMutation));
-
-    info!("{:?}", send_magic_link.read().state());
 
     rsx! {
         div {
