@@ -1,4 +1,5 @@
 use crate::pages::home::Home;
+use crate::pages::signin::Signin;
 use dioxus::prelude::*;
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -6,6 +7,8 @@ use dioxus::prelude::*;
 pub enum Route {
     #[route("/")]
     Home {},
+    #[route("/signin")]
+    Signin {},
 }
 
 #[component]
