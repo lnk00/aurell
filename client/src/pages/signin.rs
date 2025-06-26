@@ -2,12 +2,13 @@ use aurell_types::SendMagicLinkRequest;
 use dioxus::prelude::*;
 use dioxus_query::{mutation::Mutation, prelude::use_mutation};
 
-use crate::api;
+use crate::{api, router::Route};
 
 #[component]
 pub fn Signin() -> Element {
     let mut email = use_signal(|| "".to_string());
     let send_magic_link = use_mutation(Mutation::new(api::auth::SendMagicLinkMutation));
+    let nav = use_navigator();
 
     rsx! {
         div {
@@ -38,10 +39,11 @@ pub fn Signin() -> Element {
                         button {
                             class: "btn btn-block",
                             type: "submit",
-                            onclick: move |_| {
-                                send_magic_link.mutate(SendMagicLinkRequest {
+                            onclick: move |_| async move {
+                                send_magic_link.mutate_async(SendMagicLinkRequest {
                                     email: email.read().clone(),
-                                })
+                                }).await;
+                                nav.push(Route::MagicLinkSent {});
                             },
                             "Continue withe email"
                             if send_magic_link.read().state().is_loading() {
