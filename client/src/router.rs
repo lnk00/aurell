@@ -13,8 +13,8 @@ pub enum Route {
     Signin {},
     #[route("/auth/magiclink/sent")]
     MagicLinkSent {},
-    #[route("/auth/magiclink/authenticate")]
-    AuthenticateMagicLink {},
+    #[route("/auth/magiclink/authenticate?:token")]
+    AuthenticateMagicLink { token: String },
 }
 
 #[component]
